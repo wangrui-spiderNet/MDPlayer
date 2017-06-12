@@ -20,8 +20,12 @@ import com.danxx.mdplayer.adapter.VideoViewAdapater;
 import com.danxx.mdplayer.base.BaseFragment;
 import com.danxx.mdplayer.mdplayer.MDPlayer;
 import com.danxx.mdplayer.mdplayer.MDPlayerManager;
+import com.danxx.mdplayer.model.LessonModelBean;
+import com.danxx.mdplayer.model.RowsBean;
 import com.danxx.mdplayer.model.VideoListBean;
+import com.danxx.mdplayer.utils.FileUtils;
 import com.danxx.mdplayer.widget.media.IjkVideoView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,43 +271,60 @@ public class OnlineVideoFragment extends BaseFragment {
      * @return
      */
     private List<VideoListBean> setData() {
+
+        String lessonJson= FileUtils.getFromAssets(getActivity(),"classJson.json");
+        Gson gson=new Gson();
+
+        LessonModelBean modelBean=gson.fromJson(lessonJson,LessonModelBean.class);
+
         dataList.clear();
-        VideoListBean bean0 = new VideoListBean();
-        bean0.setVideoUrl("http://uc-baobab.wdjcdn.com/1471337537665_b596ac9c.mp4?t=1475424855&k=8d74c859203ccd57");
-        dataList.add(bean0);
-        VideoListBean bean00 = new VideoListBean();
-        bean00.setVideoUrl("http://ips.ifeng.com/video19.ifeng.com/video09/2014/06/16/1989823-102-086-0009.mp4");
-        dataList.add(bean00);
-        VideoListBean bean1 = new VideoListBean();
-        bean1.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9502&editionType=normal");
-        dataList.add(bean1);
-        VideoListBean bean2 = new VideoListBean();
-        bean2.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal");
-        dataList.add(bean2);
-        VideoListBean bean3 = new VideoListBean();
-        bean3.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=8438&editionType=normal");
-        dataList.add(bean3);
-        VideoListBean bean4 = new VideoListBean();
-        bean4.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=8340&editionType=normal");
-        dataList.add(bean4);
-        VideoListBean bean5 = new VideoListBean();
-        bean5.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9392&editionType=normal");
-        dataList.add(bean5);
-        VideoListBean bean6 = new VideoListBean();
-        bean6.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=7524&editionType=normal");
-        dataList.add(bean6);
-        VideoListBean bean7 = new VideoListBean();
-        bean7.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9444&editionType=normal");
-        dataList.add(bean7);
-        VideoListBean bean8 = new VideoListBean();
-        bean8.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9442&editionType=normal");
-        dataList.add(bean8);
-        VideoListBean bean9 = new VideoListBean();
-        bean9.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=8530&editionType=normal");
-        dataList.add(bean9);
-        VideoListBean bean10 = new VideoListBean();
-        bean10.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9418&editionType=normal");
-        dataList.add(bean10);
+
+        for(int i=0;i<modelBean.getBizData().getRows().size();i++){
+            VideoListBean bean0 = new VideoListBean();
+
+            RowsBean bean=modelBean.getBizData().getRows().get(i);
+            bean0.setTitleName(bean.getCourseName());
+            bean0.setVideoUrl(bean.getSourceSd());
+            dataList.add(bean0);
+        }
+
+//        dataList.clear();
+//        VideoListBean bean0 = new VideoListBean();
+//        bean0.setVideoUrl("http://zl-teacher-output.oss-cn-hangzhou.aliyuncs.com/ec1d6becfb88415cabefc2e22ac2b34a/act-ss-m3u8-ld/D013.m3u8");
+//        dataList.add(bean0);
+//        VideoListBean bean00 = new VideoListBean();
+//        bean00.setVideoUrl("http://ips.ifeng.com/video19.ifeng.com/video09/2014/06/16/1989823-102-086-0009.mp4");
+//        dataList.add(bean00);
+//        VideoListBean bean1 = new VideoListBean();
+//        bean1.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9502&editionType=normal");
+//        dataList.add(bean1);
+//        VideoListBean bean2 = new VideoListBean();
+//        bean2.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9508&editionType=normal");
+//        dataList.add(bean2);
+//        VideoListBean bean3 = new VideoListBean();
+//        bean3.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=8438&editionType=normal");
+//        dataList.add(bean3);
+//        VideoListBean bean4 = new VideoListBean();
+//        bean4.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=8340&editionType=normal");
+//        dataList.add(bean4);
+//        VideoListBean bean5 = new VideoListBean();
+//        bean5.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9392&editionType=normal");
+//        dataList.add(bean5);
+//        VideoListBean bean6 = new VideoListBean();
+//        bean6.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=7524&editionType=normal");
+//        dataList.add(bean6);
+//        VideoListBean bean7 = new VideoListBean();
+//        bean7.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9444&editionType=normal");
+//        dataList.add(bean7);
+//        VideoListBean bean8 = new VideoListBean();
+//        bean8.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9442&editionType=normal");
+//        dataList.add(bean8);
+//        VideoListBean bean9 = new VideoListBean();
+//        bean9.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=8530&editionType=normal");
+//        dataList.add(bean9);
+//        VideoListBean bean10 = new VideoListBean();
+//        bean10.setVideoUrl("http://baobab.wandoujia.com/api/v1/playUrl?vid=9418&editionType=normal");
+//        dataList.add(bean10);
         return dataList;
     }
 
